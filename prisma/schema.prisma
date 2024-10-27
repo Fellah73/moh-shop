@@ -1,0 +1,104 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum OrderStatus {
+  fullfilled
+  shipped
+  awaiting_shipping
+}
+
+enum PhoneModels {
+  iphoneX
+  iphone11
+  iphone12
+  iphone13
+  iphone14
+  iphone15
+}
+
+enum CaseMaterials {
+  silicone
+  polycarbonate
+}
+
+enum CaseColors {
+  black
+  orange
+  red
+  blue
+  white
+}
+
+enum CaseFinishes {
+  smooth
+  textured
+}
+
+model Configuration {
+  id              String  @id @default(cuid())
+  width           Int
+  height          Int
+  imageUrl        String
+  model           String?
+  color           String?
+  material        String?
+  finish          String?
+  croppedImageUrl String?
+  Order           Order[]
+}
+
+model Order {
+  id               String          @id @default(cuid())
+  configurationId  String
+  configuration    Configuration   @relation(fields: [configurationId], references: [id])
+  userId           String
+  user             User            @relation(fields: [userId], references: [id])
+  amount           Float
+  isPaid           Boolean         @default(false)
+  status           String          @default("awaiting_shipping")
+  ShippingAdress   ShippingAdress? @relation(fields: [shippingAdressId], references: [id])
+  shippingAdressId String?
+
+  billingAdressId String?
+  billingAdress   BillingAdress? @relation(fields: [billingAdressId], references: [id])
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Order     Order[]
+}
+
+model ShippingAdress {
+  id          String  @id @default(cuid())
+  name        String
+  street      String
+  city        String
+  postalCode  String
+  state       String?
+  phoneNumber String?
+
+  Order Order[]
+}
+
+model BillingAdress {
+  id          String  @id @default(cuid())
+  name        String
+  street      String
+  city        String
+  postalCode  String
+  state       String?
+  phoneNumber String?
+
+  Order Order[]
+}
