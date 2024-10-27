@@ -6,6 +6,7 @@
     "@typescript-eslint/no-non-null-asserted-optional-chain": "off",
     "react-hooks/rules-of-hooks": "off",
     "react-hooks/exhaustive-deps": "off",
-    "no-var": "off"
+    "no-var": "off",
+    "@next/next/no-img-element": "off",
   }
 }
