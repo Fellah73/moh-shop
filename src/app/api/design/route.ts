@@ -20,7 +20,7 @@ export async function POST(req : Request) {
             status: 200,
           });
     
-    } catch (_error) {
+    } catch (error) {
       return new Response(JSON.stringify({ message: "Server error" }), {
         status: 500,
       });
