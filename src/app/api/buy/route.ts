@@ -53,22 +53,11 @@ export async function POST(req : Request) {
 
       }
       
-       console.log('the price is', price)
+       console.log('the price is', price/100)
 
       let order : Order | undefined
 
-      const existingOrder = await db.order.findFirst({
-        where : {
-            userId : user.id,
-            configurationId : configuration.id          
-        }
-      })
-      console.log('Order creation result:', existingOrder);
-
-      if(!existingOrder)
-        {
-
-         console.log('lets create an order') 
+      console.log('lets create an order') 
 
 
           order = await db.order.create({
@@ -80,13 +69,9 @@ export async function POST(req : Request) {
             status : 'awaiting_shipping',
           }
         })
-        
-      }
-      else{
-        order = existingOrder
-      }
-
+     
       console.log('the order is', order)
+
       const product = await stripe.products.create({
         name : 'Custom iPhone Case',
         images : [configuration.imageUrl],
@@ -95,6 +80,8 @@ export async function POST(req : Request) {
           unit_amount : price ,
         }
       })
+
+      console.log('the product is created', product)
 
       const stripeSession = await stripe.checkout.sessions.create({
         success_url :`${process.env.NEXT_PUBLIC_SERVER_URL}/thank-you?orederId=${order.id}`,
@@ -111,6 +98,8 @@ export async function POST(req : Request) {
         line_items :[ {  price : product.default_price as string , quantity : 1  }]
 
       })
+
+      console.log('the stripe session is created successfully', stripeSession)
 
       return new Response(JSON.stringify({ url : stripeSession.url }), {
         status: 200,

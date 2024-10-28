@@ -8,75 +8,69 @@ export async function POST(req : Request) {
     try {
 
         const body = await req.text()
-        const signature = headers().get("stripe-signature")
-
-        if(!signature) {
-            return new Response(JSON.stringify({ message: "Missing signature" }), {
-               status: 400 
-            })
+        const signature = headers().get('stripe-signature')
+    
+        if (!signature) {
+          return new Response('Invalid signature', { status: 400 })
         }
-
-        {/* recupére le webhook from stripe */}
-
-        const event = stripe.webhooks.constructEvent(body, signature, process.env.STRIPE_WEBHOOK_SECRET!)
-
-        if(event.type === "checkout.session.completed"){
-            if(!event.data.object.customer_details?.email) {
-                throw new Error("Missing user email")
-            }
-        } 
-          
-        {/*  recupére les informations de la session */}
-
-        const session = event.data.object as Stripe.Checkout.Session
-        const { userId,orederId} = session.metadata  || {
-            userId : null,
-            orederId : null
-        }
-
-         {/*  recupere les billingAdress et shippingAdress */}
-
-        const shippingAdress = session.shipping_details!.address 
-        const billingAdress = session.customer_details!.address
-
-         {/*  update of tables */}
-
-        {/* update db  isPaid , create the ShippingAdress and BillingAdress ids in the order and the entites in their original tables */}
-
-        const updatedOrder = await db.order.update({
-            where : {
-                id : orederId!
+    
+        const event = stripe.webhooks.constructEvent(
+          body,
+          signature,
+          process.env.STRIPE_WEBHOOK_SECRET!
+        )
+    
+        if (event.type === 'checkout.session.completed') {
+          if (!event.data.object.customer_details?.email) {
+            throw new Error('Missing user email')
+          }
+    
+          const session = event.data.object as Stripe.Checkout.Session
+    
+          const { userId, orderId } = session.metadata || {
+            userId: null,
+            orderId: null,
+          }
+    
+          if (!userId || !orderId) {
+            throw new Error('Invalid request metadata')
+          }
+    
+          const billingAddress = session.customer_details!.address
+          const shippingAddress = session.shipping_details!.address
+    
+          const updatedOrder = await db.order.update({
+            where: {
+              id: orderId,
             },
-            data : {
-                isPaid : true,
-                ShippingAdress : {
-                    create : {
-                        name : session.customer_details!.name!,
-                        city : shippingAdress!.city!,
-                        postalCode : shippingAdress!.postal_code!,
-                        street : shippingAdress!.line1!,
-                        state : shippingAdress!.state!
-                        
-                    }
+            data: {
+              isPaid: true,
+              ShippingAdress: {
+                create: {
+                  name: session.customer_details!.name!,
+                  city: shippingAddress!.city!,
+                  postalCode: shippingAddress!.postal_code!,
+                  street: shippingAddress!.line1!,
+                  state: shippingAddress!.state,
                 },
-                billingAdress : {
-                    create : {
-                        name : session.customer_details!.name!,
-                        city : billingAdress!.city!,
-                        postalCode : billingAdress!.postal_code!,
-                        street : billingAdress!.line1!,
-                        state : billingAdress!.state!
-                        
-                    }
+              },
+              billingAdress: {
+                create: {
+                  name: session.customer_details!.name!,
+                  city: billingAddress!.city!,
+                  postalCode: billingAddress!.postal_code!,
+                  street: billingAddress!.line1!,
+                  state: billingAddress!.state,
                 },
-            }
-        })
-
+              },
+            },
+          })
+        console.log('the order is updated')
         return new Response(JSON.stringify({ result :event , ok : true}), {
             status: 200
         })
   
-    }catch (error) {
+    }}catch (error) {
  
       console.error(error)
 
