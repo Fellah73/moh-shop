@@ -12,7 +12,8 @@ export async function POST(req : Request) {
     console.log('the id is ', body.id)
    
     try { 
-      const configuration = await db.configuration.findUnique({
+      
+      const configuration = await db.configuration.findFirst({
         where : {
           id: body.id
         }
@@ -33,16 +34,22 @@ export async function POST(req : Request) {
 
       const user = await getUser()
 
+      if(!user){
+        return new Response(JSON.stringify({ message: "User not found" }), {
+          status: 404,
+        });
+      }
+
       const { finish ,material} = configuration
 
       let price = BASE_PRICE
 
       if(finish === 'textured'){
 
-        price = PRODUCTS_PRICES.finish.textured
+        price += PRODUCTS_PRICES.finish.textured
       }else{
 
-        price = PRODUCTS_PRICES.finish.smooth
+        price += PRODUCTS_PRICES.finish.smooth
       }
 
       if(material === 'silicone'){
@@ -59,8 +66,14 @@ export async function POST(req : Request) {
 
       console.log('lets create an order') 
 
-
-          order = await db.order.create({
+      const existingOrder = await db.order.findFirst({
+        where : {
+          userId : user.id,
+          configurationId : configuration.id
+        }
+      })
+      if(!existingOrder){
+        order = await db.order.create({
           data : {
             userId : user.id,
             configurationId : configuration.id,
@@ -69,8 +82,15 @@ export async function POST(req : Request) {
             status : 'awaiting_shipping',
           }
         })
+        console.log('the order is created successfully')
+      } else{
+        order = existingOrder
+        console.log('the order is found (created already)')
+      }
+
+          
      
-      console.log('the order is', order)
+      
 
       const product = await stripe.products.create({
         name : 'Custom iPhone Case',
@@ -106,6 +126,8 @@ export async function POST(req : Request) {
       })
     
     } catch (error) {
+      console.log(error)
+      console.error(error);
       return new Response(JSON.stringify({ message: "Server error" }), {
         status: 500,
       });
