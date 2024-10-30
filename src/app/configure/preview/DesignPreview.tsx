@@ -103,8 +103,8 @@ export default function DesignPreview({ configuration }: { configuration: Config
                     }} />
             </div>
             <LoginModal isOpen={isLoginModalOpen} setIsOpen={setIsLoginModalOpen} />
-            <div className='mt-20 grid grid-cols-1 text-sm sm:grid-cols-12 sm:grid-rows-1 sm:gap-x-7 lg:gap-x-10'>
-                <div className='sm:col-span-4 md:col-span-3 md:row-span-2 md:row-end-2'>
+            <div className='mt-20 flex flex-col items-center md:grid text-sm sm:grid-cols-12 sm:grid-rows-1 sm:gap-x-7 lg:gap-x-10'>
+                <div className='md:col-span-4 lg:col-span-3 md:row-span-2 md:row-end-2'>
                     <Phone imgSrc={configuration.croppedImageUrl!} dark={true}
                         className={cn("max-w-[150px] md:max-w-full rounded-[38px]", {
                             'bg-orange-800': color === 'orange',
@@ -114,7 +114,7 @@ export default function DesignPreview({ configuration }: { configuration: Config
                             'bg-zinc-300': color === 'white',
                         })} />
                 </div>
-                <div className='mt-6 sm:col-span-8 sm:mt-0 md:row-end-1'>
+                <div className='mt-6 sm:col-span-9  md:row-end-1'>
                     <h3 className='text-3xl font-bold tracking-tight text-gray-900'>
                         Your {modelLabel} Case
                     </h3>

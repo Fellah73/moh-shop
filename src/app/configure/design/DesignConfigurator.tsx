@@ -358,7 +358,7 @@ export default function DesignConfigurator({ configId, imageUrl, imageDimensions
                                 {formatPrice((BASE_PRICE + options.finish.price + options.material.price) / 100)}
                             </p>
                             <Button onClick={saveConfiguration}
-                                size='sm' className='w-full' >
+                                size='sm' className='w-full' isLoading={true} loadingText='Loading' >
                                 Continue
                                 <ArrowRight className='size-4 ml-2 inline' />
                             </Button>

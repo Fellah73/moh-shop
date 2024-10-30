@@ -13,7 +13,7 @@ export default async function Navbar() {
             <nav className='sticky z-[100] top-0 w-full h-14 inset-x-0 border-b border-gray-200 bg-white/80 backdrop-blur-lg transition-all'>
                 <MaxWidthWrapper className='flex h-14 items-center justify-between border-b border-zinc-200'>
                     <Link href='/' className='flex z-40 font-semibold '>
-                        moh <span className='text-green-600'>{' '} shop</span>
+                        moh <span className='text-blue-500'>{' '} shop</span>
                     </Link>
                     <div className='h-full flex items-center space-x-4'>
                         {
@@ -23,7 +23,7 @@ export default async function Navbar() {
                                         Logout
                                     </Link>
                                     {
-                                        isAdmin && (<Link href='api/' className={buttonVariants({ variant: 'ghost', size: 'sm' })}>
+                                        isAdmin && (<Link href='/dashboard' className={buttonVariants({ variant: 'ghost', size: 'sm' })}>
                                            💸 Dashbord
                                         </Link>)
                                     }

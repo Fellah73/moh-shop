@@ -1,16 +1,22 @@
 'use client'
 
-import { CaseColor} from '@prisma/client'
 import { useEffect, useRef, useState } from 'react'
 import { AspectRatio } from './ui/aspect-ratio'
 import { cn } from '@/lib/utils'
-
+export enum CaseColors {
+  black = 'black',
+  orange = 'orange',
+  red = 'red',
+  blue = 'blue',
+  white = 'white',
+  rose = 'rose',
+}
 const PhonePreview = ({
   croppedImageUrl,
   color,
 }: {
   croppedImageUrl: string
-  color: CaseColor
+  color: CaseColors
 }) => {
   const ref = useRef<HTMLDivElement>(null)
 

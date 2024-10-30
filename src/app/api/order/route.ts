@@ -1,6 +1,9 @@
-import { db } from "@/app/db"
-import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server"
+import { db } from "@/app/db";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import { console } from "inspector";
 
+
+console.log('Entrée dans le endpoint  /api/order/route.ts'); 
 export async function GET(req: Request) {
     try {
       const { searchParams } = new URL(req.url);
@@ -61,5 +64,45 @@ export async function GET(req: Request) {
         status: 500,
       });
     }
+  }
+
+
+
+
+  export async function PATCH(req: Request){
+
+
+    const { searchParams} = new URL(req.url)
+    const body =  await req.json()
+    const { status } = body
+
+    console.log('the id is ', searchParams,' the status is ', status)
+
+
+    try {
+
+      await db.order.update({
+        where: {
+          id: searchParams.get('orderId') || '',
+        },
+        data: {
+          status: status
+        },
+      })
+
+      console.log('the order is updated')
+
+      return new Response(JSON.stringify({ message: "Order updated", success: true }), {
+        status: 200,
+      });
+
+    }catch(error){
+      console.error(error)
+
+      return new Response(JSON.stringify({ message: "Server error", success: false }), {
+        status: 500,
+      });
+    }
+
   }
   

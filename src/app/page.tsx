@@ -6,6 +6,11 @@ import { buttonVariants } from "@/components/ui/button";
 import { ArrowRight, Check, Star } from "lucide-react";
 import Link from "next/link";
 
+// app/page.js
+export const metadata = {
+  title: 'Moh Shop | Créez votre coque de téléphone personnalisée',
+  description: 'Uploadez votre photo et créez une coque de téléphone unique en quelques clics. Service rapide, qualité professionnelle et design sur mesure.',
+};
 
 export default function Home() {
   return (
@@ -21,7 +26,7 @@ export default function Home() {
               </div>
               <h1 className='relative w-fit tracking-tight text-balance mt-16 font-bold !leading-tight text-gray-900 text-5xl md:text-6xl lg:text-7xl'>
                 Your Image on a{' '}
-                <span className='bg-green-600 px-2 text-white'>Custom</span>{' '}
+                <span className='bg-blue-500 px-2 text-white'>Custom</span>{' '}
                 Phone Case
               </h1>
               <p className='mt-8 text-lg lg:pr-10 max-w-prose text-center lg:text-left text-balance md:text-wrap'>
@@ -34,15 +39,15 @@ export default function Home() {
               <ul className='mt-8 space-y-2 text-left font-medium flex flex-col items-center sm:items-start'>
                 <div className='space-y-2'>
                   <li className='flex gap-1.5 items-center text-left'>
-                    <Check className='h-5 w-5 shrink-0 text-green-600' />
+                    <Check className='h-5 w-5 shrink-0 text-blue-500' />
                     High-quality, durable material
                   </li>
                   <li className='flex gap-1.5 items-center text-left'>
-                    <Check className='h-5 w-5 shrink-0 text-green-600' />5 year
+                    <Check className='h-5 w-5 shrink-0 text-blue-500' />5 year
                     print guarantee
                   </li>
                   <li className='flex gap-1.5 items-center text-left'>
-                    <Check className='h-5 w-5 shrink-0 text-green-600' />
+                    <Check className='h-5 w-5 shrink-0 text-blue-500' />
                     Modern iPhone models supported
                   </li>
                 </div>
@@ -79,11 +84,11 @@ export default function Home() {
 
                 <div className='flex flex-col justify-between items-center sm:items-start'>
                   <div className='flex gap-0.5'>
-                    <Star className='h-4 w-4 text-green-600 fill-green-600' />
-                    <Star className='h-4 w-4 text-green-600 fill-green-600' />
-                    <Star className='h-4 w-4 text-green-600 fill-green-600' />
-                    <Star className='h-4 w-4 text-green-600 fill-green-600' />
-                    <Star className='h-4 w-4 text-green-600 fill-green-600' />
+                    <Star className='h-4 w-4 text-blue-600 fill-blue-500' />
+                    <Star className='h-4 w-4 text-blue-600 fill-blue-500' />
+                    <Star className='h-4 w-4 text-blue-600 fill-blue-500' />
+                    <Star className='h-4 w-4 text-blue-600 fill-blue-500' />
+                    <Star className='h-4 w-4 text-blue-600 fill-blue-500' />
                   </div>
 
                   <p>
@@ -115,7 +120,7 @@ export default function Home() {
 
           <div className="flex flex-col lg:flex-row items-center gap-4 sm:gap-6">
             <h2 className="order-1 mt-2 text-center text-balance !leading-tight text-5xl sm:text-6xl font-bold text-gray-900 ">
-              Avis des nos <span className="relative px-2">clients <Icons.underline className="hidden sm:block pointer-events-none absolute inset-x-0 -top-7 text-green-600" />
+              Avis des nos <span className="relative px-2">clients
                 <Icons.underline className="hidden sm:block pointer-events-none absolute inset-x-0 -bottom-5 text-blue-600" /></span>
             </h2>
             <img src="/snake-2.png" className="w-24 order-0 lg:order-2 lg:ml-3" />
@@ -123,11 +128,11 @@ export default function Home() {
           <div className="mx-auto grid max-w-2xl grid-cols-1 px-4 lg:mx-0 lg:max-w-none lg:grid-cols-2 gap-y-16">
             <div className="flex flex-auto flex-col gap-4 lg:pr-8 xl:pr-20">
               <div className="flex gap-0.5 mb-2">
-                <Star className="size-5 text-green-600 fill-green-600" />
-                <Star className="size-5 text-green-600 fill-green-600" />
-                <Star className="size-5 text-green-600 fill-green-600" />
-                <Star className="size-5 text-green-600 fill-green-600" />
-                <Star className="size-5 text-green-600 fill-green-600" />
+                <Star className="size-5 text-blue-600 fill-blue-500" />
+                <Star className="size-5 text-blue-600 fill-blue-500" />
+                <Star className="size-5 text-blue-600 fill-blue-500" />
+                <Star className="size-5 text-blue-600 fill-blue-500" />
+                <Star className="size-5 text-blue-600 fill-blue-500" />
               </div>
               <div className="text-lg leading-7">
                 <p>
@@ -140,18 +145,18 @@ export default function Home() {
               <div className="flex flex-col">
                 <p className="font-semibold ">Mohamed </p>
                 <div className="flex gap-1.5 items-center text-zinc-500">
-                  <Check className="size-5 text-green-600 stroke-[3px]" />
+                  <Check className="size-5 text-blue-500 stroke-[3px]" />
                   <p className="text-sm">Verifired Purchase</p>
                 </div>
               </div>
             </div>
             <div className="flex flex-auto flex-col gap-4 lg:pr-8 xl:pr-20">
               <div className="flex gap-0.5 mb-2">
-                <Star className="size-5 text-green-600 fill-green-600" />
-                <Star className="size-5 text-green-600 fill-green-600" />
-                <Star className="size-5 text-green-600 fill-green-600" />
-                <Star className="size-5 text-green-600 fill-green-600" />
-                <Star className="size-5 text-green-600 fill-green-600" />
+                <Star className="size-5  text-blue-600 fill-blue-500" />
+                <Star className="size-5 text-blue-600 fill-blue-500" />
+                <Star className="size-5 text-blue-600 fill-blue-500" />
+                <Star className="size-5 text-blue-600 fill-blue-500" />
+                <Star className="size-5 text-blue-600 fill-blue-500" />
               </div>
               <div className="text-lg leading-7">
                 <p>
@@ -164,18 +169,18 @@ export default function Home() {
               <div className="flex flex-col">
                 <p className="font-semibold ">Meriem </p>
                 <div className="flex gap-1.5 items-center text-zinc-500">
-                  <Check className="size-5 text-green-600 stroke-[3px]" />
+                  <Check className="size-5 text-blue-500 stroke-[3px]" />
                   <p className="text-sm">Verifired Purchase</p>
                 </div>
               </div>
             </div>
             <div className="flex flex-auto flex-col gap-4 lg:pr-8 xl:pr-20">
               <div className="flex gap-0.5 mb-2">
-                <Star className="size-5 text-green-600 fill-green-600" />
-                <Star className="size-5 text-green-600 fill-green-600" />
-                <Star className="size-5 text-green-600 fill-green-600" />
-                <Star className="size-5 text-green-600 fill-green-600" />
-                <Star className="size-5 text-green-600 fill-green-600" />
+                <Star className="size-5 text-blue-600 fill-blue-500" />
+                <Star className="size-5 text-blue-600 fill-blue-500" />
+                <Star className="size-5 text-blue-600 fill-blue-500" />
+                <Star className="size-5 text-blue-600 fill-blue-500" />
+                <Star className="size-5 text-blue-600 fill-blue-500" />
               </div>
               <div className="text-lg leading-7">
                 <p>
@@ -188,7 +193,7 @@ export default function Home() {
               <div className="flex flex-col">
                 <p className="font-semibold ">Rahima </p>
                 <div className="flex gap-1.5 items-center text-zinc-500">
-                  <Check className="size-5 text-green-600 stroke-[3px]" />
+                  <Check className="size-5 text-blue-500 stroke-[3px]" />
                   <p className="text-sm">Verifired Purchase</p>
                 </div>
               </div>
@@ -206,7 +211,7 @@ export default function Home() {
           <div className="mb-12 px-6 lg:px-8">
             <div className="mx-auto max-w-2xl sm:text-center">
               <h2 className="order-1 mt-2 text-center text-balance !leading-tight text-5xl sm:text-6xl font-bold text-gray-900 ">
-                Upload your photo and get{" "}<span className="relative px-2  text-white bg-green-600 rounded-md">your own case</span>now
+                Upload your photo and get{" "}<span className="relative px-2  text-white bg-blue-500 rounded-md">your own case</span>now
               </h2>
             </div>
           </div>
@@ -223,19 +228,19 @@ export default function Home() {
           </div>
           <ul className="mx-auto mt-12 max-w-prose sm:text-lg space-y-2 w-fit">
             <li className='flex w-fit gap-1.5 items-center text-left'>
-              <Check className='h-5 w-5 shrink-0 text-green-600' />
+              <Check className='h-5 w-5 shrink-0 text-blue-600' />
               High-quality, durable material
             </li>
             <li className='flex gap-1.5 items-center text-left'>
-              <Check className='h-5 w-5 shrink-0 text-green-600' />5 year
+              <Check className='h-5 w-5 shrink-0 text-blue-600' />5 year
               print guarantee
             </li>
             <li className='flex gap-1.5 items-center text-left'>
-              <Check className='h-5 w-5 shrink-0 text-green-600' />
+              <Check className='h-5 w-5 shrink-0 text-blue-600' />
               Modern iPhone models supported
             </li>
             <li className='flex gap-1.5 items-center text-left'>
-              <Check className='h-5 w-5 shrink-0 text-green-600' />
+              <Check className='h-5 w-5 shrink-0 text-blue-600' />
               Five years print warranty
             </li>
             <div className="flex justify-center">

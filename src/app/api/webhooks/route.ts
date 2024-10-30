@@ -1,8 +1,12 @@
 import { db } from "@/app/db"
+import OrderReceivedEmail from "@/components/email/OrderReceivedEmail"
 import { stripe } from "@/lib/stripe"
 import { headers } from "next/headers"
+import { Resend } from "resend"
 import Stripe from "stripe"
 
+
+const resend = new Resend(process.env.RESEND_API_KEY!)
 export async function POST(req : Request) {
 
     try {
@@ -66,6 +70,29 @@ export async function POST(req : Request) {
             },
           })
         console.log('the order is updated')
+
+
+
+        await resend.emails.send({
+          from: 'moh-shop <mouhflh73@gmail.com>',
+          to: [event.data.object.customer_details.email!],
+          subject: "Thank you for your order!",
+          react: OrderReceivedEmail({
+            orderId: updatedOrder.id,
+            orderDate: updatedOrder.createdAt.toString(),
+            // @ts-ignore
+            shippingAddress:{
+              name: session.customer_details!.name!,
+              city: shippingAddress!.city!,
+              postalCode: shippingAddress!.postal_code!,
+              street: shippingAddress!.line1!,
+              state: shippingAddress!.state,
+            }
+          })     
+        })
+
+        console.log('the email is sent')
+          
         return new Response(JSON.stringify({ result :event , ok : true}), {
             status: 200
         })
