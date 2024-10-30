@@ -1,45 +1,48 @@
 'use client'
-
 import { Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { useEffect, useRef , useState} from 'react'
+import { useEffect, useRef } from 'react'
 
 export default function AuthCallbackPage() {
     const router = useRouter()
     const hasFetched = useRef(false)
-    const [configData, setConfigData] = useState<String | null>('') // Drapeau pour éviter les fetch multiples
 
     useEffect(() => {
-        if (hasFetched.current) return // Empêcher un second fetch
+        const handleAuth = async () => {
+            // Éviter les appels multiples
+            if (hasFetched.current) return
+            hasFetched.current = true
 
-        if (typeof window !== 'undefined') {
-            const configId = localStorage.getItem('configurationId')
-            localStorage.removeItem('configurationId')
+            try {
+                // 1. D'abord, on vérifie/crée l'utilisateur dans la base de données
+                const res = await fetch(`/api/auth-db`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                })
+                const data = await res.json()
 
-            if (configId) {
-                setConfigData(configId)
+                // 2. Une fois l'utilisateur configuré, on vérifie s'il y a une configuration en attente
+                if (data.success) {
+                    const configId = localStorage.getItem('configurationId')
+                    localStorage.removeItem('configurationId')
+
+                    // Redirection basée sur l'existence d'une configuration
+                    if (configId) {
+                        router.push(`/configure/preview?id=${configId}`)
+                    } else {
+                        router.push('/')
+                    }
+                } else {
+                    router.push('/')
+                }
+            } catch (error) {
+                console.error('Auth error:', error)
+                router.push('/')
             }
-                getUser() 
-
-            hasFetched.current = true // Marquer le fetch comme effectué
         }
-    }, [])
-    {/* Fonction pour ajouter le user dnas la bdd*/ }
-    const getUser = async () => {
-        const res = await fetch(`/api/auth-db`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-        })
 
-        const data = await res.json()
-
-        if (data.success  === true  && configData) {
-
-                  router.push(`/configure/preview?id=${configData}`)
-        } else {
-            router.push('/')
-        }
-    }
+        handleAuth()
+    }, [router])
 
     return (
         <div className='w-full mt-24 flex justify-center'>
